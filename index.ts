@@ -6,47 +6,61 @@ const rl = readline.createInterface({ input, output });
 
 // ✍️ Escribe tu código aquí 👇
 
-let systemName:string = "Codiguito";
-let version:number = 0.1;
-let userName:string = "makaveli"
 
-const texto = `==================================
-  `+ systemName + " v" + version + `
-  ¡Bienvenido, ` + userName + `!
-==================================`;
 
-console.log (texto);
+interface Tarea{
+  id:number;
+  titulo: string;
+  completada: boolean;
+}
+let tareas : Tarea[] = [];
+let contId:number = 1;
 
-let tareas: string[] = [];
+let sw=0;
 
-let sw = 0;
+const añadirTarea = (tit: string) => {
+        tareas.push({id:contId++,titulo:tit,completada: false});
+}
 
-while (sw != 4) {
-  const answer = await rl.question(`Elija la tarea a realizar:
+const listarTareas = () => {
+    for (let tarea of tareas) {
+        const estado = tarea.completada ? "completada" : "pendiente";
+        console.log(`[${tarea.id}] ${tarea.titulo} - ${estado}`);
+    }
+};
+const eliminarTarea = (id: number) => {
+    const i = tareas.findIndex(tarea => tarea.id === id);
+    if (i !== -1) {
+        const eliminar = tareas.splice(i, 1)[0];
+        console.log(`Tarea eliminada: ${eliminar.titulo}`);
+    } else {
+        console.log("Tarea no encontrada");
+    }
+};
+
+while (sw !=4) {
+  const answer = await rl.question (`Elija la tarea a realizar:
     1. Agregar tarea
-    2. Eliminar ultima tarea
+    2. Eliminar tarea
     3. Listar tareas
     4. Salir
     tu respuesta:  `);
-  sw = parseInt(answer);
+    sw = parseInt(answer);
+    
   switch (sw) {
     case 1:
-      const answer = await rl.question("Ingrese la tarea a agregar: ");
-      tareas.push(answer);
-      break;
+      añadirTarea(await rl.question("Ingrese la tarea a agregar: "));
+      break
     case 2:
-      let tareaEliminada = tareas.pop();
-      console.log(`Tarea eliminada: ${tareaEliminada}`);
+      eliminarTarea(parseInt(await rl.question("ID de la tarea a eliminar: ")));
       break;
     case 3:
-      for (let i = 0; i < tareas.length; i++) {
-        console.log(`Tarea ${i + 1}: ${tareas[i]}`);
-      }
+      listarTareas();
     case 4:
       break;
   }
 }
-console.log("Saliendo del programa...");
+
 
 // 🚫 No eliminar las líneas de abajo ⬇️
 rl.close();
