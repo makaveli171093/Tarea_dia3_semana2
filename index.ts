@@ -120,7 +120,7 @@ while (sw != 7) {
       break;
     case 2:
       eliminarTarea(parseInt(await rl.question("ID de la tarea a eliminar: ")));
-      break;
+    break;
     case 3:
       listarTareasMetodo();
       break;
