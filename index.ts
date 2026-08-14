@@ -138,5 +138,6 @@ while (sw != 7) {
       break;
   }
 }
+
 // 🚫 No eliminar las líneas de abajo ⬇️
 rl.close();
